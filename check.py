@@ -31,7 +31,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36 YCJ-Pulse/1"
 LIVE_URL = os.environ.get("PULSE_LIVE_URL", "https://status.yourcardjourney.store/status.json")
-GH_TOKEN = (os.environ.get("PULSE_GH_TOKEN") or "").strip()
+GH_TOKEN = (os.environ.get("PULSE_GH_TOKEN") or "").strip().strip("﻿").strip()
 IST = timezone(timedelta(hours=5, minutes=30))
 HISTORY_HOURS = 24
 SLOW_SECONDS = 8
@@ -348,6 +348,9 @@ def main(out):
     (out / "index.html").write_text(page, "utf-8")
 
     telegram(changes, tools)
+    # Shape only, never the value - enough to tell a pasted literal from a token.
+    print(f"token: length {len(GH_TOKEN)}, gh-prefixed {GH_TOKEN[:4] in ('gho_', 'ghp_', 'gith')}, "
+          f"has '$(' {'$(' in GH_TOKEN}")
     for t in tools:
         print(f"{t['status']:>7}  {t['name']:<16} {t['summary']}")
     print("counts:", counts)
