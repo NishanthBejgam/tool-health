@@ -199,8 +199,9 @@
       : `All ${n} tools healthy. Sites up, data fresh, builds passing.`;
     $("#tally").innerHTML = ["ok", "warn", "down", "unknown"].filter((s) => s !== "unknown" || c.unknown)
       .map((s) => `<span class="${c[s] ? "" : "zero"}"><i class="${s}"></i><b>${c[s]}</b> ${WORD[s]}</span>`).join("");
-    const next = Math.max(1, Math.round((data.everyMinutes || 15) - late));
-    $("#checked span").textContent = `Checked ${ago(now - gen)}` + (late <= 45 ? ` · next ~${next} min` : "");
+    const due = Math.round((data.everyMinutes || 15) - late);
+    $("#checked span").textContent = `Checked ${ago(now - gen)}` +
+      (due >= 1 ? ` · next in ~${due} min` : late <= 45 ? " · next check due now" : "");
     $("#grid").innerHTML = tools.map((t, i) => card(t, i, now)).join("");
     document.title = (bad ? `(${bad}) ` : "") + "Pulse";
     if (first) { first = false; setTimeout(() => document.body.classList.add("settled"), 1400); }
