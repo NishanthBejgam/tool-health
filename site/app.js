@@ -5,6 +5,7 @@
 (function () {
   const WORD = { ok: "Healthy", warn: "Warning", down: "Down", unknown: "Unknown" };
   const RANK = { down: 0, warn: 1, unknown: 2, ok: 3 };
+  const SLOT_RANK = { down: 0, warn: 1, ok: 2, unknown: 3 };
   const SLOT_MIN = 15, SLOTS = 96;          // 24 h strip, one bar per check
   const S = 'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"';
 
@@ -135,9 +136,10 @@
     const slots = new Array(SLOTS).fill(null), end = now / 1000;
     for (const [t, s] of hist || []) {
       const i = SLOTS - 1 - Math.floor((end - t) / (SLOT_MIN * 60));
-      if (i >= 0 && i < SLOTS && (slots[i] === null || RANK[s] < RANK[slots[i]])) slots[i] = s;
+      // worst result in the slot wins - but "couldn't judge" never hides a real result
+      if (i >= 0 && i < SLOTS && (slots[i] === null || SLOT_RANK[s] < SLOT_RANK[slots[i]])) slots[i] = s;
     }
-    const seen = slots.filter(Boolean);
+    const seen = slots.filter((s) => s && s !== "unknown");
     const up = seen.length ? Math.round(100 * seen.filter((s) => s === "ok").length / seen.length) : null;
     const html = slots.map((s, i) => {
       const at = new Date((end - (SLOTS - 1 - i) * SLOT_MIN * 60) * 1000)
