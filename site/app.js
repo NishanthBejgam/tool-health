@@ -6,7 +6,7 @@
   const WORD = { ok: "Healthy", warn: "Warning", down: "Down", unknown: "Unknown" };
   const RANK = { down: 0, warn: 1, unknown: 2, ok: 3 };
   const SLOT_RANK = { down: 0, warn: 1, ok: 2, unknown: 3 };
-  const SLOT_MIN = 15, SLOTS = 96;          // 24 h strip, one bar per check
+  const SLOT_MIN = 60, SLOTS = 24;          // 24 h strip, one bar per hourly check
   const S = 'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"';
 
   const LOOK = {
@@ -182,9 +182,10 @@
     let overall = c.down ? "down" : c.warn ? "warn" : c.unknown ? "unknown" : "ok";
 
     // The checker can die too - if it hasn't run, nothing below is current.
+    const every = data.everyMinutes || 60, lateAt = every * 1.5;
     const banner = $("#banner");
-    if (late > 45) {
-      const bad = late > 120;
+    if (late > lateAt) {
+      const bad = late > every * 3;
       banner.hidden = false;
       banner.className = "banner" + (bad ? " down" : "");
       banner.textContent = `The checker last ran ${ago(now - gen)} - GitHub's scheduler is late${bad ? " or the check job is failing" : ""}. Colours are from that run.`;
@@ -199,9 +200,9 @@
       : `All ${n} tools healthy. Sites up, data fresh, builds passing.`;
     $("#tally").innerHTML = ["ok", "warn", "down", "unknown"].filter((s) => s !== "unknown" || c.unknown)
       .map((s) => `<span class="${c[s] ? "" : "zero"}"><i class="${s}"></i><b>${c[s]}</b> ${WORD[s]}</span>`).join("");
-    const due = Math.round((data.everyMinutes || 15) - late);
+    const due = Math.round(every - late);
     $("#checked span").textContent = `Checked ${ago(now - gen)}` +
-      (due >= 1 ? ` · next in ~${due} min` : late <= 45 ? " · next check due now" : "");
+      (due >= 1 ? ` · next in ~${due} min` : late <= lateAt ? " · next check due now" : "");
     $("#grid").innerHTML = tools.map((t, i) => card(t, i, now)).join("");
     document.title = (bad ? `(${bad}) ` : "") + "Pulse";
     if (first) { first = false; setTimeout(() => document.body.classList.add("settled"), 1400); }

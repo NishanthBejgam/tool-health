@@ -7,7 +7,7 @@ tool, green / amber / red, with a 24 h strip and the individual checks behind it
   build/watcher runs, Worker answering). Add a tool here; nothing else changes.
 - `check.py _site` - runs the checks, carries 24 h history over from the live
   `status.json`, writes the page into `_site/`.
-- `.github/workflows/check.yml` - every 15 min, publishes to GitHub Pages.
+- `.github/workflows/check.yml` - hourly (cron-job.org "Pulse tick" dispatch; GitHub cron as fallback), publishes to GitHub Pages.
 
 Secrets: `PULSE_GH_TOKEN` (reads Actions runs across NishanthBejgam, YourCardJourney,
 WhichBike - without it the build checks show "unknown"); optional `PULSE_TG_TOKEN` +

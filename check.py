@@ -336,7 +336,7 @@ def main(out):
             changes.append((tool, old["status"]))
 
     counts = {s: sum(1 for t in tools if t["status"] == s) for s in RANK}
-    doc = {"generatedAt": now.isoformat(timespec="seconds"), "everyMinutes": 15,
+    doc = {"generatedAt": now.isoformat(timespec="seconds"), "everyMinutes": int(os.environ.get("PULSE_EVERY_MIN", "60")),
            "counts": counts, "tools": tools}
 
     if out.exists() and out.name == "_site":

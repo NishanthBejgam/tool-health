@@ -1,12 +1,13 @@
 name: Health check
 
-# Every 15 minutes: run every tool's checks, publish status.json + the page.
+# Hourly: run every tool's checks, publish status.json + the page.
 # GitHub's free cron is best-effort and can run late - the page says so itself
-# when status.json is older than 45 min. A `tick` repository_dispatch (e.g. from
-# cron-job.org) can drive it on a firmer clock, as Karat Board does.
+# when status.json is over 90 min old. The real clock is cron-job.org's
+# "Pulse tick" job (hourly `tick` repository_dispatch), as for Karat Board;
+# the cron below is only a fallback.
 on:
   schedule:
-    - cron: "4,19,34,49 * * * *"
+    - cron: "34 * * * *"
   workflow_dispatch:
   repository_dispatch:
     types: [tick]
