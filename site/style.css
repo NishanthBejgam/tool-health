@@ -109,7 +109,7 @@ body[data-overall="down"] { --tone: var(--down); }
 /* ---------------------------------------------------------------- hero */
 main { position: relative; z-index: 1; width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 16px 28px; flex: 1; }
 .hero { position: relative; padding: 34px 0 22px; }
-.ecg { position: absolute; left: 0; right: 0; top: 8px; width: 100%; height: 120px; opacity: .55; }
+.ecg { position: absolute; left: 0; right: 0; top: 6px; width: 100%; height: 64px; opacity: .55; }
 .ecg-base { stroke: var(--m3-outline-var); stroke-width: 1; fill: none; }
 .ecg-line {
   fill: none; stroke: var(--tone); stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round;
@@ -117,7 +117,7 @@ main { position: relative; z-index: 1; width: 100%; max-width: 1180px; margin: 0
   stroke-dasharray: 2400; stroke-dashoffset: 2400; animation: trace 5s linear infinite;
 }
 @keyframes trace { to { stroke-dashoffset: 0; } }
-.hero-copy { position: relative; display: flex; align-items: center; gap: 18px; padding-top: 34px; }
+.hero-copy { position: relative; display: flex; align-items: center; gap: 18px; padding-top: 52px; }
 .orb { position: relative; flex: none; width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center;
   background: color-mix(in srgb, var(--tone) 16%, transparent); }
 .orb::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--tone); opacity: .5; animation: ring 2.4s ease-out infinite; }
@@ -216,7 +216,7 @@ h1 { margin: 0; font-size: clamp(24px, 4.6vw, 38px); font-weight: 800; letter-sp
   .checked { padding: 6px 10px; font-size: 11.5px; }
   .brand-text small { display: none; }
   .hero { padding-top: 22px; }
-  .hero-copy { gap: 14px; padding-top: 26px; }
+  .hero-copy { gap: 14px; padding-top: 50px; }
   .orb { width: 44px; height: 44px; } .orb i { width: 18px; height: 18px; }
   .tile-head { gap: 12px; padding: 14px 14px 10px 16px; }
   .mark, .mark img { width: 42px; height: 42px; }

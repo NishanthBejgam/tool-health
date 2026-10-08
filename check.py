@@ -277,7 +277,7 @@ def previous():
 
 
 def summary_line(tool):
-    bad = [c for c in tool["checks"] if c["status"] in ("warn", "down")]
+    bad = [c for c in tool["checks"] if c["status"] in ("warn", "down", "unknown")]
     if not bad:
         return "All checks passing"
     worst = max(bad, key=lambda c: RANK[c["status"]])
