@@ -1,0 +1,49 @@
+name: Health check
+
+# Every 15 minutes: run every tool's checks, publish status.json + the page.
+# GitHub's free cron is best-effort and can run late - the page says so itself
+# when status.json is older than 45 min. A `tick` repository_dispatch (e.g. from
+# cron-job.org) can drive it on a firmer clock, as Karat Board does.
+on:
+  schedule:
+    - cron: "4,19,34,49 * * * *"
+  workflow_dispatch:
+  repository_dispatch:
+    types: [tick]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pulse
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run checks
+        env:
+          PULSE_GH_TOKEN: ${{ secrets.PULSE_GH_TOKEN }}
+          PULSE_TG_TOKEN: ${{ secrets.PULSE_TG_TOKEN }}
+          PULSE_TG_CHAT: ${{ secrets.PULSE_TG_CHAT }}
+          PYTHONUNBUFFERED: "1"
+        run: python check.py _site && cp CNAME _site/
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4

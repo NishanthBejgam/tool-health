@@ -1,0 +1,122 @@
+{
+  "_comment": "One entry per tool. Ages are minutes: <= ok is green, <= warn is amber, beyond is red. Never point a check at a Worker's /state - on BlinkDeal, AmazonGold, FlipkartGold and Deals that route can start a paid sweep. Worker checks hit '/', which answers 404 from a live Worker and has no side effects.",
+  "tools": [
+    {
+      "id": "karatboard", "name": "Karat Board", "mark": "karatboard.svg",
+      "url": "https://karatboard.yourcardjourney.store",
+      "what": "15 jewellers' 22K/24K rates, re-read every 30 min",
+      "checks": [
+        {"type": "http", "label": "Site", "url": "https://karatboard.yourcardjourney.store"},
+        {"type": "age", "label": "Rates freshness", "url": "https://karatboard.yourcardjourney.store/rates.json", "field": "builtAt", "ok": 75, "warn": 180},
+        {"type": "merchants", "label": "Jewellers reading", "url": "https://karatboard.yourcardjourney.store/rates.json", "staleHours": 12, "warnAt": 1, "downAt": 5},
+        {"type": "workflow", "label": "Build", "repo": "NishanthBejgam/karat-board", "file": "build.yml"}
+      ]
+    },
+    {
+      "id": "karatalerts", "name": "Karat Alerts", "mark": "karatalerts.svg",
+      "url": "https://t.me/KaratBoardAlertBot",
+      "what": "Telegram spread + jewellery-coupon alerts",
+      "checks": [
+        {"type": "age", "label": "Alert check ran", "url": "https://karatboard.yourcardjourney.store/alerts.json", "field": "checkedAt", "ok": 75, "warn": 180},
+        {"type": "workflow", "label": "Alert build", "repo": "NishanthBejgam/karat-board", "file": "build.yml"}
+      ]
+    },
+    {
+      "id": "couponwatch", "name": "Coupon Watch", "mark": "couponwatch.svg",
+      "url": "https://github.com/NishanthBejgam/coupon-watch",
+      "what": "Amazon jewellery-coupon watcher, every 30 min",
+      "checks": [
+        {"type": "workflow", "label": "Watcher runs", "repo": "NishanthBejgam/coupon-watch", "file": "watch.yml", "ok": 60, "warn": 180},
+        {"type": "json", "label": "Coupon signal", "url": "https://raw.githubusercontent.com/NishanthBejgam/coupon-watch/main/signal/coupon.json", "field": "status", "oneOf": ["live", "none"]}
+      ]
+    },
+    {
+      "id": "rewardswitch", "name": "Reward Switch", "mark": "rewardswitch.svg",
+      "url": "https://rewardswitch.yourcardjourney.store",
+      "what": "Amazon Pay rewards catalogue + 15-min harvester",
+      "checks": [
+        {"type": "http", "label": "Site", "url": "https://rewardswitch.yourcardjourney.store"},
+        {"type": "age", "label": "Catalogue freshness", "url": "https://rewardswitch.yourcardjourney.store/catalog.json", "field": "builtAt", "ok": 180, "warn": 360},
+        {"type": "workflow", "label": "Reward harvester", "repo": "NishanthBejgam/rewardswitch", "file": "watch.yml", "ok": 45, "warn": 120},
+        {"type": "workflow", "label": "Catalogue build", "repo": "NishanthBejgam/rewardswitch", "file": "build.yml"}
+      ]
+    },
+    {
+      "id": "blinkdeal", "name": "BlinkDeal", "mark": "blinkdeal.svg",
+      "url": "https://blinkdeal.yourcardjourney.store",
+      "what": "Myntra gold-coin board, sweeps while a deal is open",
+      "checks": [
+        {"type": "http", "label": "Site", "url": "https://blinkdeal.yourcardjourney.store"},
+        {"type": "worker", "label": "Session Worker", "url": "https://blinkdeal.yourcardjourney.workers.dev/"},
+        {"type": "workflow", "label": "Sweep build", "repo": "NishanthBejgam/blinkdeal", "file": "build.yml"}
+      ]
+    },
+    {
+      "id": "amazongold", "name": "AmazonGold", "mark": "amazongold.svg",
+      "url": "https://amazongold.yourcardjourney.store",
+      "what": "Amazon gold board, full sweep 08:47 + 17:47 IST",
+      "checks": [
+        {"type": "http", "label": "Site", "url": "https://amazongold.yourcardjourney.store"},
+        {"type": "worker", "label": "Session Worker", "url": "https://amazongold.yourcardjourney.workers.dev/"},
+        {"type": "age", "label": "Prices freshness", "url": "https://amazongold.yourcardjourney.store/coins.json", "field": "builtAt", "ok": 960, "warn": 1560},
+        {"type": "workflow", "label": "Sweep build", "repo": "YourCardJourney/amazongold", "file": "build.yml"}
+      ]
+    },
+    {
+      "id": "flipkartgold", "name": "FlipkartGold", "mark": "flipkartgold.svg",
+      "url": "https://flipkartgold.yourcardjourney.store",
+      "what": "Flipkart gold board, sweeps while a deal is open",
+      "checks": [
+        {"type": "http", "label": "Site", "url": "https://flipkartgold.yourcardjourney.store"},
+        {"type": "worker", "label": "Session Worker", "url": "https://flipkartgold.yourcardjourney.workers.dev/"},
+        {"type": "workflow", "label": "Sweep build", "repo": "WhichBike/flipkartgold", "file": "build.yml"}
+      ]
+    },
+    {
+      "id": "whichbike", "name": "WhichBike", "mark": "whichbike.svg",
+      "url": "https://whichbike.in",
+      "what": "Two-wheeler offers, Amazon + Flipkart, every 2 days",
+      "checks": [
+        {"type": "http", "label": "Site", "url": "https://whichbike.in"},
+        {"type": "age", "label": "Bikes freshness", "url": "https://whichbike.in/bikes.json", "field": "builtAt", "ok": 3120, "warn": 4560},
+        {"type": "json", "label": "Both stores read", "url": "https://whichbike.in/bikes.json", "field": "sources", "contains": "flipkart", "severity": "warn"},
+        {"type": "count", "label": "Models listed", "url": "https://whichbike.in/bikes.json", "field": "models", "min": 100, "severity": "warn"},
+        {"type": "workflow", "label": "Sweep build", "repo": "WhichBike/whichbike", "file": "build.yml"}
+      ]
+    },
+    {
+      "id": "deals", "name": "Deals", "mark": "deals.svg",
+      "url": "https://deals.yourcardjourney.store",
+      "what": "Amazon Pay voucher deal page + watch Worker",
+      "checks": [
+        {"type": "http", "label": "Site", "url": "https://deals.yourcardjourney.store"},
+        {"type": "worker", "label": "Watch Worker", "url": "https://deals.yourcardjourney.workers.dev/"}
+      ]
+    },
+    {
+      "id": "recast", "name": "ReCast", "mark": "recast.svg",
+      "url": "https://recast.yourcardjourney.store",
+      "what": "X post to WhatsApp / Instagram / LinkedIn / Reddit",
+      "checks": [
+        {"type": "http", "label": "Site", "url": "https://recast.yourcardjourney.store"},
+        {"type": "worker", "label": "Sync Worker", "url": "https://recast-sync.yourcardjourney.workers.dev/"}
+      ]
+    },
+    {
+      "id": "blinkdeal-live", "name": "BlinkDeal.live", "mark": "blinkdeal-live.svg",
+      "url": "https://blinkdeal.live",
+      "what": "Front-door wheel for the four gold boards",
+      "checks": [
+        {"type": "http", "label": "Site", "url": "https://blinkdeal.live"}
+      ]
+    },
+    {
+      "id": "yourcardjourney", "name": "YourCardJourney", "mark": "yourcardjourney.svg",
+      "url": "https://yourcardjourney.store",
+      "what": "The store front",
+      "checks": [
+        {"type": "http", "label": "Site", "url": "https://yourcardjourney.store"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pulse</title>
+<meta name="description" content="Live health of every YourCardJourney tool - green, amber or red at a glance.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0b0f14">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script>try{var t=localStorage.getItem("pulse.theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="style.css?v={{V}}">
+</head>
+<body data-overall="unknown">
+<div class="glow" aria-hidden="true"></div>
+
+<header class="topbar">
+  <a class="brand" href="./" aria-label="Pulse home">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32"><path class="beat" d="M3 17h6l2.5-6 4 12 3.5-15 3 9h7"/></svg>
+    </span>
+    <span class="brand-text">
+      <b>Pul<em>se</em></b>
+      <small>EVERY TOOL · ONE GLANCE</small>
+    </span>
+  </a>
+  <div class="top-right">
+    <span class="checked" id="checked"><i></i><span>Loading…</span></span>
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch light / dark">
+      <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7"/></svg>
+      <svg class="moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-live="polite">
+    <svg class="ecg" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+      <path class="ecg-base" d="M0 60H1200"/>
+      <path class="ecg-line" id="ecg" d=""/>
+    </svg>
+    <div class="hero-copy">
+      <span class="orb" aria-hidden="true"><i></i></span>
+      <div>
+        <h1 id="headline">Checking every tool…</h1>
+        <p id="subline">Sites, data freshness, builds and watchers.</p>
+      </div>
+    </div>
+    <div class="tally" id="tally"></div>
+    <div class="banner" id="banner" hidden></div>
+  </section>
+
+  <section class="grid" id="grid" aria-label="Tools"></section>
+
+  <section class="legend" aria-label="Legend">
+    <span><i class="sw ok"></i>Healthy — working as expected</span>
+    <span><i class="sw warn"></i>Warning — running, but something is late or partial</span>
+    <span><i class="sw down"></i>Down — broken, needs a look</span>
+    <span><i class="sw unknown"></i>Unknown — couldn't be judged</span>
+  </section>
+</main>
+
+<footer class="site-credit">
+  <img src="yourcardjourney.png" alt="" onerror="this.style.display='none'">
+  <span>Shared by <span class="handle">@YourCardJourney</span></span>
+</footer>
+
+<script src="app.js?v={{V}}"></script>
+</body>
+</html>
