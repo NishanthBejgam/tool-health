@@ -5,7 +5,7 @@
 (function () {
   const WORD = { ok: "Healthy", warn: "Warning", down: "Down", unknown: "Unknown" };
   const RANK = { down: 0, warn: 1, unknown: 2, ok: 3 };
-  const SLOT_MIN = 30, SLOTS = 48;          // 24 h of half-hour dots
+  const SLOT_MIN = 15, SLOTS = 96;          // 24 h strip, one bar per check
   const S = 'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"';
 
   const LOOK = {
@@ -139,7 +139,12 @@
     }
     const seen = slots.filter(Boolean);
     const up = seen.length ? Math.round(100 * seen.filter((s) => s === "ok").length / seen.length) : null;
-    return { html: slots.map((s) => `<i class="${s || ""}"></i>`).join(""), up };
+    const html = slots.map((s, i) => {
+      const at = new Date((end - (SLOTS - 1 - i) * SLOT_MIN * 60) * 1000)
+        .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      return `<i class="${s || ""}" style="--n:${i}" title="${at} · ${s ? WORD[s] : "no check"}"></i>`;
+    }).join("");
+    return { html, up };
   }
 
   function card(t, i, now) {
@@ -157,10 +162,10 @@
         <h3>${esc(t.name)}</h3>
         <p class="tag">${esc(L.tag || t.what)}</p>
         <p class="note">${esc(note)}</p>
+        <div class="hist"><div class="bars" aria-label="Last 24 hours">${d.html}</div>
+          <div class="hist-foot"><span>24 h ago</span><span>${d.up === null ? "" : d.up + "% healthy"}</span><span>now</span></div></div>
         <div class="more"><div>
           <ul class="checks">${checks}</ul>
-          <div class="hist"><div class="dots">${d.html}</div>
-            <div class="hist-foot"><span>24 h ago</span><span>${d.up === null ? "" : d.up + "% healthy"}</span><span>now</span></div></div>
           <a class="go" href="${esc(t.url)}" target="_blank" rel="noopener">Open ${esc(t.name)} ↗</a>
         </div></div>
       </article>`;
