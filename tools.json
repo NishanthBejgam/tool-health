@@ -48,7 +48,7 @@
       "checks": [
         {"type": "http", "label": "Site", "url": "https://blinkdeal.yourcardjourney.store"},
         {"type": "worker", "label": "Session Worker", "url": "https://blinkdeal.yourcardjourney.workers.dev/"},
-        {"type": "workflow", "label": "Sweep build", "repo": "NishanthBejgam/blinkdeal", "file": "build.yml"}
+        {"type": "workflow", "label": "Sweep build", "repo": "BlinkDealLive/blinkdeal", "file": "build.yml"}
       ]
     },
     {
