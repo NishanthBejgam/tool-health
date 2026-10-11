@@ -58,7 +58,7 @@
       "checks": [
         {"type": "http", "label": "Site", "url": "https://amazongold.yourcardjourney.store"},
         {"type": "worker", "label": "Session Worker", "url": "https://amazongold.yourcardjourney.workers.dev/"},
-        {"type": "age", "label": "Prices freshness", "url": "https://amazongold.yourcardjourney.store/coins.json", "field": "builtAt", "ok": 960, "warn": 1560},
+        {"type": "age", "label": "Prices freshness", "url": "https://amazongold.yourcardjourney.workers.dev/meta", "field": "builtAt", "ok": 960, "warn": 1560},
         {"type": "workflow", "label": "Sweep build", "repo": "YourCardJourney/amazongold", "file": "build.yml"}
       ]
     },
