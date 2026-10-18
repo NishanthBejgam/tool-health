@@ -68,6 +68,14 @@
         <path d="M9 9.5V8a3 3 0 0 1 6 0v1.5"/>
         <g class="an-drop"><circle cx="12" cy="14.6" r="3" fill="#ffe500" stroke="none"/><path d="M12 13.2v2.8" stroke="#1a5dcc" stroke-width="1.3"/></g></svg>`,
     },
+    giftdeals: {
+      tag: "Every gift-card coupon, best first.",
+      grad: "linear-gradient(140deg,#14b8a6 0%,#0f766e 55%,#0a4f4a 100%)", glow: "rgba(15,118,110,.42)",
+      svg: `<svg ${S} stroke-width="1.7">
+        <rect x="4.5" y="11" width="15" height="9" rx="1.6" fill="currentColor" fill-opacity=".2"/><path d="M12 11v9"/>
+        <rect x="3.5" y="8" width="17" height="3.2" rx="1.1" fill="currentColor" fill-opacity=".3"/>
+        <path class="an-drop" d="M12 8c-1.2-2.6-4.6-3.1-4.6-1.1 0 1.3 2.4 1.1 4.6 1.1zm0 0c1.2-2.6 4.6-3.1 4.6-1.1 0 1.3-2.4 1.1-4.6 1.1z" stroke="#ffd56a"/></svg>`,
+    },
     whichbike: {
       tag: "Which bike, which card.",
       grad: "linear-gradient(140deg,#ff6a5f 0%,#e0160c 52%,#a50e06 100%)", glow: "rgba(224,22,12,.4)",

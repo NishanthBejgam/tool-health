@@ -73,6 +73,17 @@
       ]
     },
     {
+      "id": "giftdeals", "name": "GiftDeals", "mark": "giftdeals.svg",
+      "url": "https://giftdeals.yourcardjourney.store",
+      "what": "Amazon gift-card coupons, read 07:00 + 19:00 IST",
+      "checks": [
+        {"type": "http", "label": "Site", "url": "https://giftdeals.yourcardjourney.store"},
+        {"type": "worker", "label": "Board Worker", "url": "https://giftdeals.yourcardjourney.workers.dev/"},
+        {"type": "age", "label": "Coupons freshness", "url": "https://giftdeals.yourcardjourney.workers.dev/api/state", "field": "meta.builtAt", "ok": 800, "warn": 1100},
+        {"type": "workflow", "label": "Amazon read", "repo": "GiftDealsHQ/giftdeals", "file": "read.yml"}
+      ]
+    },
+    {
       "id": "whichbike", "name": "WhichBike", "mark": "whichbike.svg",
       "url": "https://whichbike.in",
       "what": "Two-wheeler offers, Amazon + Flipkart, every 2 days",
