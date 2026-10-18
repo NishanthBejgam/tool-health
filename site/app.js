@@ -108,6 +108,15 @@
         <g class="an-dial"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4" opacity=".55"/></g>
         <circle cx="12" cy="12" r="3" fill="currentColor" stroke="none"/></svg>`,
     },
+    ycjtools: {
+      tag: "Every tool. One bookmark.",
+      grad: "linear-gradient(140deg,#06b6d4 0%,#6366f1 50%,#a855f7 100%)", glow: "rgba(99,102,241,.42)",
+      svg: `<svg ${S} stroke-width="1.7">
+        <rect class="an-cell" x="3.5" y="3.5" width="7.5" height="7.5" rx="2.2" fill="currentColor" fill-opacity=".9" stroke="none"/>
+        <rect class="an-cell" x="13" y="3.5" width="7.5" height="7.5" rx="2.2" fill="currentColor" fill-opacity=".28"/>
+        <rect class="an-cell" x="3.5" y="13" width="7.5" height="7.5" rx="2.2" fill="currentColor" fill-opacity=".28"/>
+        <path class="an-cell" d="M16.8 13.3l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.3 1.2.5-2.5-1.8-1.8 2.5-.4z" fill="currentColor" stroke-width="1.1"/></svg>`,
+    },
     yourcardjourney: {
       tag: "The store. Every tool.",
       grad: "linear-gradient(140deg,#6366f1 0%,#a855f7 50%,#ec4899 100%)", glow: "rgba(168,85,247,.42)",

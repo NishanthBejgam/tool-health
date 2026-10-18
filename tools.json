@@ -122,6 +122,15 @@
       ]
     },
     {
+      "id": "ycjtools", "name": "YCJ Tools", "mark": "ycjtools.svg",
+      "url": "https://tools.yourcardjourney.store",
+      "what": "One-bookmark home for every live tool",
+      "checks": [
+        {"type": "http", "label": "Site", "url": "https://tools.yourcardjourney.store"},
+        {"type": "http", "label": "Master vault", "url": "https://tools.yourcardjourney.store/vault.json"}
+      ]
+    },
+    {
       "id": "yourcardjourney", "name": "YourCardJourney", "mark": "yourcardjourney.svg",
       "url": "https://yourcardjourney.store",
       "what": "The store front",

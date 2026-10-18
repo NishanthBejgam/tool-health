@@ -273,6 +273,13 @@ i.ok { background: var(--ok); } i.warn { background: var(--warn); } i.down { bac
 .card:hover .an-route { animation: an-write .7s var(--ease) both; }
 @keyframes an-write { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
 
+.an-cell { transform-box: fill-box; transform-origin: center; }
+.card:hover .an-cell { animation: an-pop .45s var(--ease) both; }
+.card:hover .an-cell:nth-of-type(2) { animation-delay: .07s; }
+.card:hover .an-cell:nth-of-type(3) { animation-delay: .14s; }
+.card:hover .an-cell:nth-of-type(4) { animation-delay: .21s; }
+@keyframes an-pop { 0% { transform: scale(.4); opacity: .3; } 60% { transform: scale(1.15); opacity: 1; } 100% { transform: none; } }
+
 /* ---------------------------------------------------------------- footer */
 .site-credit { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 20px 16px 28px; font-size: 13px; color: var(--muted); }
 .site-credit img { height: 24px; width: auto; border-radius: 6px; }
