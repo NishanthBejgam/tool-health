@@ -287,11 +287,12 @@ def summary_line(tool):
 
 def telegram(changes, tools):
     tok, chat = os.environ.get("PULSE_TG_TOKEN", "").strip(), os.environ.get("PULSE_TG_CHAT", "").strip()
-    if not (tok and chat and changes):
+    test = os.environ.get("PULSE_TG_TEST") == "true"
+    if not (tok and chat and (changes or test)):
         return
     dot = {"ok": "🟢", "warn": "🟠", "down": "🔴", "unknown": "⚪"}
     went_down = any(t["status"] == "down" for t, _ in changes)
-    lines = ["<b>🚨 Pulse · tool DOWN</b>" if went_down else "<b>Pulse · tool back up</b>", ""]
+    lines = ["<b>🧪 Pulse · TEST alert</b>", ""] if test and not changes else ["<b>🚨 Pulse · tool DOWN</b>" if went_down else "<b>Pulse · tool back up</b>", ""]
     for t, was in changes:
         if t["status"] == "down":
             lines.append(f"🔴 <b>{t['name']}</b> is down")
@@ -307,8 +308,9 @@ def telegram(changes, tools):
             urllib.request.urlopen(urllib.request.Request(
                 f"https://api.telegram.org/bot{tok}/sendMessage", data=data,
                 headers={"Content-Type": "application/json"}), timeout=20)
+            print("telegram sent")
         except Exception as e:
-            print("telegram failed:", type(e).__name__)
+            print("telegram failed:", type(e).__name__, getattr(e, "code", ""))
 
 
 # ---------------------------------------------------------------- main

@@ -9,6 +9,11 @@ on:
   schedule:
     - cron: "34 * * * *"
   workflow_dispatch:
+    inputs:
+      alert_test:
+        description: "Send a TEST Telegram alert"
+        type: boolean
+        default: false
   repository_dispatch:
     types: [tick]
   push:
@@ -40,6 +45,7 @@ jobs:
           PULSE_GH_TOKEN: ${{ secrets.PULSE_GH_TOKEN }}
           PULSE_TG_TOKEN: ${{ secrets.PULSE_TG_TOKEN }}
           PULSE_TG_CHAT: ${{ secrets.PULSE_TG_CHAT }}
+          PULSE_TG_TEST: ${{ inputs.alert_test }}
           PYTHONUNBUFFERED: "1"
         run: python check.py _site && cp CNAME _site/
       - uses: actions/configure-pages@v5
