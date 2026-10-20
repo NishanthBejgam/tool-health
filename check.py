@@ -14,7 +14,8 @@ Env:
                    workflow checks report "unknown" instead of guessing.
   PULSE_LIVE_URL   where the previous status.json lives (history seed)
   PULSE_TG_TOKEN / PULSE_TG_CHAT
-                   optional: Telegram message when any tool changes colour.
+                   optional: Telegram message when a tool goes down or comes back.
+                   Warnings never alert.
 """
 import json
 import os
@@ -289,12 +290,16 @@ def telegram(changes, tools):
     if not (tok and chat and changes):
         return
     dot = {"ok": "🟢", "warn": "🟠", "down": "🔴", "unknown": "⚪"}
-    lines = ["<b>Pulse · tool health changed</b>", ""]
+    went_down = any(t["status"] == "down" for t, _ in changes)
+    lines = ["<b>🚨 Pulse · tool DOWN</b>" if went_down else "<b>Pulse · tool back up</b>", ""]
     for t, was in changes:
-        lines.append(f"{dot[t['status']]} <b>{t['name']}</b> ({was} → {t['status']})")
-        lines.append(f"    {summary_line(t)}")
-    bad = sum(1 for t in tools if t["status"] in ("warn", "down"))
-    lines += ["", "All tools healthy ✅" if not bad else f"{bad} tool(s) need a look", "status.yourcardjourney.store"]
+        if t["status"] == "down":
+            lines.append(f"🔴 <b>{t['name']}</b> is down")
+            lines.append(f"    {summary_line(t)}")
+        else:
+            lines.append(f"{dot[t['status']]} <b>{t['name']}</b> is back ({t['status']})")
+    down = [t["name"] for t in tools if t["status"] == "down"]
+    lines += ["", "Nothing down ✅" if not down else f"Down now: {', '.join(down)}", "status.yourcardjourney.store"]
     for c in chat.split(","):
         data = json.dumps({"chat_id": c.strip(), "text": "\n".join(lines), "parse_mode": "HTML",
                            "disable_web_page_preview": True}).encode()
@@ -332,8 +337,10 @@ def main(out):
                 "status": status, "since": since, "checks": checks, "history": hist}
         tool["summary"] = summary_line(tool)
         tools.append(tool)
-        if old.get("status") and old["status"] != status and "unknown" not in (old["status"], status):
-            changes.append((tool, old["status"]))
+        # Alert only on entering or leaving "down" - warnings never page.
+        was = old.get("status")
+        if was and was != status and "down" in (was, status) and status != "unknown":
+            changes.append((tool, was))
 
     counts = {s: sum(1 for t in tools if t["status"] == s) for s in RANK}
     doc = {"generatedAt": now.isoformat(timespec="seconds"), "everyMinutes": int(os.environ.get("PULSE_EVERY_MIN", "60")),
