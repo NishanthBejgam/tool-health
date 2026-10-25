@@ -92,6 +92,14 @@
         <circle cx="16.4" cy="6.6" r="1.3" fill="currentColor"/>
         <path d="M8.6 14.4l4.2-4.2" stroke-width="1.6"/></g></svg>`,
     },
+    brands: {
+      tag: "Brand deals, every card.",
+      grad: "linear-gradient(140deg,#f472b6 0%,#db2777 52%,#9d174d 100%)", glow: "rgba(219,39,119,.4)",
+      svg: `<svg ${S} stroke-width="1.7"><g class="an-tagg">
+        <rect x="5" y="7" width="14" height="12.5" rx="2.4" fill="currentColor" fill-opacity=".22"/>
+        <path d="M9.5 7V4.8a1.3 1.3 0 0 1 1.3-1.3h2.4a1.3 1.3 0 0 1 1.3 1.3V7M9 10.5v5.5M15 10.5v5.5"/>
+        <path d="M8 19.5v1M16 19.5v1" stroke-width="2"/></g></svg>`,
+    },
     recast: {
       tag: "One post. Every channel.",
       grad: "linear-gradient(140deg,#a78bfa 0%,#6b38c9 55%,#4c1d95 100%)", glow: "rgba(107,56,201,.42)",

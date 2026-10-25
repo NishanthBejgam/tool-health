@@ -105,6 +105,17 @@
       ]
     },
     {
+      "id": "brands", "name": "Brands", "mark": "brands.svg",
+      "url": "https://brands.yourcardjourney.store",
+      "what": "Brand deal boards (Mokobara) from Flipkart, every 90 min",
+      "checks": [
+        {"type": "http", "label": "Site", "url": "https://brands.yourcardjourney.store"},
+        {"type": "age", "label": "Prices freshness", "url": "https://brands.yourcardjourney.store/mokobara/products.json", "field": "updated", "ok": 150, "warn": 300},
+        {"type": "count", "label": "Products listed", "url": "https://brands.yourcardjourney.store/mokobara/products.json", "field": "items", "min": 150, "severity": "warn"},
+        {"type": "workflow", "label": "Flipkart read", "repo": "YourCardJourney/brands", "file": "refresh.yml"}
+      ]
+    },
+    {
       "id": "recast", "name": "ReCast", "mark": "recast.svg",
       "url": "https://recast.yourcardjourney.store",
       "what": "X post to WhatsApp / Instagram / LinkedIn / Reddit",
